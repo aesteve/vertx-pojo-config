@@ -1,4 +1,4 @@
-## Vertx-typesafe-config
+## Vertx-pojo-config
 
 A very simple tool to map Vert.x's json configuration onto a typed configuration Java bean.
 
@@ -48,3 +48,8 @@ class SimpleConfigurationVerticle extends TypedConfigurationVerticle<SimpleConf>
 ```
 
 Then, from within your verticle just call `getConfig()` to get the `SimpleConf` instance. The `config()` method will still be returning the `JsonObject` configuration.
+
+### JSR 303 (Bean validation)
+
+If an implementation of the JSR 303 (hibernate-validator for instance) within your classpath, then your configuration will be checked against a validator.
+This means you can annotate your configuration with `@Email`, `@NotNull`, and stuff like that.

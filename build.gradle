@@ -17,12 +17,37 @@ repositories {
   }
 }
 
+configurations {
+  beanValidationTestCompile.extendsFrom testCompile
+  beanValidationTestCompile.extendsFrom compileOnly
+  beanValidationTestRuntime.extendsFrom testRuntime
+}
+
+
 dependencies {
   compile "io.vertx:vertx-core:$vertxVersion"
+  compileOnly 'org.hibernate:hibernate-validator:5.2.4.Final'
 
   testCompile 'junit:junit:4.12'
   testCompile "io.vertx:vertx-unit:$vertxVersion"
+
+  beanValidationTestRuntime 'javax.el:javax.el-api:2.2.4'
+  beanValidationTestRuntime 'org.glassfish.web:javax.el:2.2.4'
 }
+
+// add a different source test for bean validation with validator jar in classpath
+// so that we can make sure everything's working fine even without validator's jar
+sourceSets {
+  beanValidationTest {
+    java {
+      compileClasspath += main.output
+      runtimeClasspath += main.output
+      srcDir file('src/beanvalidation-test/java')
+    }
+    resources.srcDir file('src/beanvalidation-test/resources')
+  }
+}
+
 
 bintray {
   user = 'aesteve'
