@@ -38,8 +38,9 @@ public class TestConfWithEmail extends TestBase {
     vertx.deployVerticle(new EmailConfVerticle(), invalidOptions(), context.asyncAssertFailure(exception -> {
       context.assertTrue(exception instanceof VertxException);
       context.assertTrue(exception instanceof InvalidConfigurationException);
-      InvalidConfigurationException ice = (InvalidConfigurationException)exception;
-      System.out.println(ice.getMessage());
+      String validationMsg = exception.getMessage();
+      context.assertTrue(validationMsg.contains(INVALID_MAIL));
+      context.assertTrue(validationMsg.contains("field email"));
     }));
   }
 
